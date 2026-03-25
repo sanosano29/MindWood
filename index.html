@@ -3,23 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindWood | შეკვეთის ფორმა</title>
-    
+    <title>MindWood | Order Form</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
-
     <style>
         :root {
-            --primary-color: #d4a373; /* ღია ხისფერი */
-            --secondary-color: #8b5a2b; /* მუქი ხისფერი */
-            --bg-color: #121212; /* შავი ფონი */
-            --card-bg: #1e1e1e; /* ფორმის ფონი */
+            --primary-color: #d4a373;
+            --secondary-color: #8b5a2b;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
             --text-color: #e0e0e0;
         }
 
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -27,21 +23,80 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            position: relative;
         }
 
+        /* ჩამოსაშლელი მენიუს სტილი (Dropdown) */
+        .dropdown {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            z-index: 100;
+        }
+
+        .dropbtn {
+            background-color: #262626;
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 80px;
+        }
+
+        .dropbtn img { width: 25px; border-radius: 2px; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #262626;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            margin-top: 5px;
+            border: 1px solid #444;
+            overflow: hidden;
+        }
+
+        .dropdown-content button {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+            text-transform: none; /* რომ ღილაკის სტილი არ გადაყვეს */
+        }
+
+        .dropdown-content button img { width: 20px; border-radius: 2px; }
+        .dropdown-content button:hover { background-color: #333; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown:hover .dropbtn { border-color: var(--primary-color); }
+
+        /* ფორმის სტილები */
         .container {
             background-color: var(--card-bg);
             width: 90%;
-            max-width: 450px;
+            max-width: 420px;
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
             border: 1px solid #333;
             position: relative;
-            overflow: hidden;
         }
 
-        /* ზედა დეკორატიული ხაზი */
         .container::before {
             content: "";
             position: absolute;
@@ -52,113 +107,46 @@
             background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
         }
 
-        h2 {
-            text-align: center;
-            font-size: 28px;
-            color: var(--primary-color);
-            margin-top: 0;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        p.subtitle {
-            text-align: center;
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--primary-color);
-            text-transform: uppercase;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            background-color: #262626;
-            border: 1px solid #3d3d3d;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background-color: #2d2d2d;
-            box-shadow: 0 0 8px rgba(212, 163, 115, 0.2);
-        }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
-            text-transform: uppercase;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 90, 43, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* წარმატების შეტყობინების სტილი */
-        .footer-note {
-            text-align: center;
-            font-size: 11px;
-            color: #555;
-            margin-top: 20px;
-        }
+        h2 { text-align: center; color: var(--primary-color); text-transform: uppercase; margin-top: 0; letter-spacing: 1px;}
+        p.subtitle { text-align: center; font-size: 14px; color: #888; margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: bold; color: var(--primary-color); text-transform: uppercase;}
+        input { width: 100%; padding: 14px; background: #262626; border: 1px solid #3d3d3d; border-radius: 8px; color: white; box-sizing: border-box; }
+        button#submit-btn { width: 100%; padding: 16px; background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        button#submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139, 90, 43, 0.4); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>MindWood</h2>
-        <p class="subtitle">შეავსეთ ფორმა შეკვეთისთვის</p>
+    <div class="dropdown">
+        <button class="dropbtn" id="active-lang">
+            <img src="https://flagcdn.com/w40/ge.png" alt="GE"> KA
+        </button>
+        <div class="dropdown-content">
+            <button onclick="changeLanguage('ka')"><img src="https://flagcdn.com/w40/ge.png"> Georgian</button>
+            <button onclick="changeLanguage('en')"><img src="https://flagcdn.com/w40/us.png"> English</button>
+            <button onclick="changeLanguage('ru')"><img src="https://flagcdn.com/w40/ru.png"> Russian</button>
+        </div>
+    </div>
 
+    <div class="container">
+        <h2 id="title">MindWood</h2>
+        <p class="subtitle" id="subtitle">შეავსეთ ფორმა შეკვეთისთვის</p>
         <form id="contact-form">
             <div class="input-group">
-                <label>სახელი და გვარი</label>
-                <input type="text" name="user_name" placeholder="მაგ: გიორგი ბერიძე" required>
+                <label id="label-name">სახელი და გვარი</label>
+                <input type="text" name="user_name" id="input-name" placeholder="მაგ: გიორგი ბერიძე" required>
             </div>
-
             <div class="input-group">
-                <label>ტელეფონის ნომერი</label>
-                <input type="tel" name="user_phone" placeholder="599 00 00 00" required>
+                <label id="label-phone">ტელეფონის ნომერი</label>
+                <input type="tel" name="user_phone" id="input-phone" placeholder="599 00 00 00" required>
             </div>
-
             <div class="input-group">
-                <label>მასალა / ფერი</label>
-                <input type="text" name="laminate_color" placeholder="მაგ: მუხა, კაკალი, მუქი ნაცრისფერი" required>
+                <label id="label-color">მასალა / ფერი</label>
+                <input type="text" name="laminate_color" id="input-color" placeholder="მაგ: მუხა, კაკალი..." required>
             </div>
-
             <button type="submit" id="submit-btn">შეკვეთის გაგზავნა</button>
         </form>
-
-        <p class="footer-note">© 2026 MindWood Services. All rights reserved.</p>
     </div>
 
     <script src="script.js"></script>
