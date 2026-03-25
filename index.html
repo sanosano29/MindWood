@@ -156,7 +156,7 @@
         labelColor: "მასალა / ფერი", 
         btn: "შეკვეთის გაგზავნა", 
         placeholderName: "მაგ: გიორგი ბერიძე", 
-        placeholderColor: "მაგ: მუხა, კაკალი...", // <-- ქართული
+        placeholderColor: "მაგ: მუხა, კაკალი...", 
         success: "მონაცემები წარმატებით გაიგზავნა!", 
         langShort: "KA", 
         flag: "ge" 
@@ -168,7 +168,7 @@
         labelColor: "Material / Color", 
         btn: "Send Order", 
         placeholderName: "e.g. John Doe", 
-        placeholderColor: "e.g. Oak, Walnut...", // <-- ინგლისური
+        placeholderColor: "e.g. Oak, Walnut...", 
         success: "Data sent successfully!", 
         langShort: "EN", 
         flag: "us" 
@@ -180,7 +180,7 @@
         labelColor: "Материал / Цвет", 
         btn: "Отправить заказ", 
         placeholderName: "напр. Иван Иванов", 
-        placeholderColor: "напр. Дуб, Орех...", // <-- რუსული
+        placeholderColor: "напр. Дуб, Орех...", 
         success: "Данные успешно отправлены!", 
         langShort: "RU", 
         flag: "ru" 
@@ -189,48 +189,48 @@
 
 let currentLang = 'ka';
 
+// ენის შეცვლის ფუნქცია
 function changeLanguage(lang) {
     currentLang = lang;
     
-    // ტექსტების შეცვლა
     document.getElementById('subtitle').innerText = translations[lang].subtitle;
     document.getElementById('label-name').innerText = translations[lang].labelName;
     document.getElementById('label-phone').innerText = translations[lang].labelPhone;
     document.getElementById('label-color').innerText = translations[lang].labelColor;
     document.getElementById('submit-btn').innerText = translations[lang].btn;
-    
-    // Placeholder-ების შეცვლა (ორივე ველისთვის)
     document.getElementById('input-name').placeholder = translations[lang].placeholderName;
-    document.getElementById('input-color').placeholder = translations[lang].placeholderColor; // <-- ეს ხაზი დაემატა
+    document.getElementById('input-color').placeholder = translations[lang].placeholderColor;
     
-    // ჩამოსაშლელი ღილაკის ვიზუალის შეცვლა
     const activeBtn = document.getElementById('active-lang');
     activeBtn.innerHTML = `<img src="https://flagcdn.com/w40/${translations[lang].flag}.png"> ${translations[lang].langShort}`;
 }
 
+// EmailJS კონფიგურაცია - აქ ჩასვი შენი რეალური კოდები!
 (function() {
-    emailjs.init("ვახოს_PUBLIC_KEY"); 
+    emailjs.init("YOUR_PUBLIC_KEY"); // <-- ჩაწერე შენი Public Key
 })();
 
 document.getElementById('contact-form').addEventListener('submit', function(event) {
     event.preventDefault();
+    
     const btn = document.getElementById('submit-btn');
     const originalText = btn.innerText;
     btn.innerText = "Sending...";
     btn.disabled = true;
 
-   emailjs.sendForm('service_1nq3807', 'template_dt0l18t', this)
+    // აქ ჩაწერე შენი Service ID და Template ID
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
         .then(function() {
             alert(translations[currentLang].success);
             document.getElementById('contact-form').reset();
-            btn.innerText = originalText;
+            btn.innerText = translations[currentLang].btn;
             btn.disabled = false;
         }, function(error) {
-            alert("Error: " + JSON.stringify(error));
-            btn.innerText = originalText;
+            alert("Error: " + JSON.stringify(error)); // თუ არ გაიგზავნა, აქ დაგვიწერს რატომ
+            btn.innerText = translations[currentLang].btn;
             btn.disabled = false;
         });
-});  </script>
+}); </script>
    
 </body>
 </html>
