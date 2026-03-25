@@ -2,24 +2,164 @@
 <html lang="ka">
 <head>
     <meta charset="UTF-8">
-    <title>IT Support Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWood | შეკვეთის ფორმა</title>
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #d4a373; /* ღია ხისფერი */
+            --secondary-color: #8b5a2b; /* მუქი ხისფერი */
+            --bg-color: #121212; /* შავი ფონი */
+            --card-bg: #1e1e1e; /* ფორმის ფონი */
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            width: 90%;
+            max-width: 450px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ზედა დეკორატიული ხაზი */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-top: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        p.subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            background-color: #262626;
+            border: 1px solid #3d3d3d;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: #2d2d2d;
+            box-shadow: 0 0 8px rgba(212, 163, 115, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 90, 43, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* წარმატების შეტყობინების სტილი */
+        .footer-note {
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <h2>შეავსეთ მონაცემები</h2>
-    <form id="contact-form">
-        <label>სახელი:</label><br>
-        <input type="text" name="user_name" required><br><br>
+    <div class="container">
+        <h2>MindWood</h2>
+        <p class="subtitle">შეავსეთ ფორმა შეკვეთისთვის</p>
 
-        <label>ტელეფონი:</label><br>
-        <input type="text" name="user_phone" required><br><br>
+        <form id="contact-form">
+            <div class="input-group">
+                <label>სახელი და გვარი</label>
+                <input type="text" name="user_name" placeholder="მაგ: გიორგი ბერიძე" required>
+            </div>
 
-        <label>ლამინატის ფერი:</label><br>
-        <input type="text" name="laminate_color" required><br><br>
+            <div class="input-group">
+                <label>ტელეფონის ნომერი</label>
+                <input type="tel" name="user_phone" placeholder="599 00 00 00" required>
+            </div>
 
-        <button type="submit">გაგზავნა</button>
-    </form>
+            <div class="input-group">
+                <label>მასალა / ფერი</label>
+                <input type="text" name="laminate_color" placeholder="მაგ: მუხა, კაკალი, მუქი ნაცრისფერი" required>
+            </div>
+
+            <button type="submit" id="submit-btn">შეკვეთის გაგზავნა</button>
+        </form>
+
+        <p class="footer-note">© 2026 MindWood Services. All rights reserved.</p>
+    </div>
 
     <script src="script.js"></script>
 </body>
