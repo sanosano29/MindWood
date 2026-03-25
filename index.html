@@ -219,7 +219,7 @@ document.getElementById('contact-form').addEventListener('submit', function(even
     btn.disabled = true;
 
     // აქ ჩაწერე შენი Service ID და Template ID
-    emailjs.sendForm('service_1nq3807', 'z7Rbd60fFzIzLwfFx', this)
+    emailjs.sendForm('service_1nq3807', 'template_dt0l18t', this)
         .then(function() {
             alert(translations[currentLang].success);
             document.getElementById('contact-form').reset();
