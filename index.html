@@ -3,210 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindWood | Order Form</title>
+    <title>MindWood | Premium Woodwork</title>
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        :root {
-            --primary-color: #d4a373;
-            --secondary-color: #8b5a2b;
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
+        :root { 
+            --primary-color: #d4a373; 
+            --secondary-color: #8b5a2b; 
+            --bg-color: #1a1a1a; 
+            --text-color: #ffffff;
         }
 
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding-top: 80px;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* ჩამოსაშლელი მენიუს სტილი (Dropdown) */
-        .dropdown {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: inline-block;
-            z-index: 100;
+        /* დანლარული და ნათელი უკანა ფონი */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('image/background.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: blur(6px) brightness(0.6); 
+            transform: scale(1.05); 
+            z-index: -1;
         }
 
-        .dropbtn {
-            background-color: #262626;
-            color: white;
-            padding: 10px 15px;
-            font-size: 16px;
-            border: 1px solid #444;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 80px;
+        /* ნავბარი */
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(15, 15, 15, 0.9);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 30px; box-sizing: border-box;
+            border-bottom: 1px solid rgba(212, 163, 115, 0.2);
+            z-index: 1000;
+            backdrop-filter: blur(15px);
         }
 
-        .dropbtn img { width: 25px; border-radius: 2px; }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .logo-img { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary-color); }
+        .brand-name { font-weight: 800; font-size: 1.4rem; color: #fff; letter-spacing: 1px; }
+        .brand-name span { color: var(--primary-color); }
 
+        /* ენების მენიუ - გასწორებული "ხიდით" */
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn { 
+            background: rgba(255, 255, 255, 0.05); color: #fff; padding: 8px 16px; 
+            font-size: 14px; font-weight: 600; border: 1px solid rgba(212, 163, 115, 0.3); 
+            border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s;
+        }
         .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #262626;
-            min-width: 100px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
-            border-radius: 8px;
-            margin-top: 5px;
-            border: 1px solid #444;
-            overflow: hidden;
+            display: none; position: absolute; right: 0; top: 100%;
+            background: #1e1e1e; min-width: 140px; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #333;
+            overflow: hidden; z-index: 1001; margin-top: 5px; animation: fadeIn 0.2s ease;
         }
+        .dropdown::after { content: ""; position: absolute; top: 100%; left: 0; width: 100%; height: 15px; display: none; }
+        .dropdown:hover .dropdown-content, .dropdown:hover::after { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .dropdown-content button {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: none;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 14px;
-            text-transform: none; /* რომ ღილაკის სტილი არ გადაყვეს */
+            color: #ccc; padding: 12px 16px; width: 100%; border: none; background: none; 
+            text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px;
         }
+        .dropdown-content button:hover { background: #2a2a2a; color: var(--primary-color); }
+        .dropdown-content img { width: 18px; border-radius: 2px; }
 
-        .dropdown-content button img { width: 20px; border-radius: 2px; }
-        .dropdown-content button:hover { background-color: #333; }
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown:hover .dropbtn { border-color: var(--primary-color); }
+        /* კონტენტი */
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; text-align: center; }
+        .section-title { margin: 40px 0; font-size: 2rem; color: var(--primary-color); text-transform: uppercase; letter-spacing: 3px; font-weight: 300; }
+        .section-title span { font-weight: 800; }
 
-        /* ფორმის სტილები */
-        .container {
-            background-color: var(--card-bg);
-            width: 90%;
-            max-width: 420px;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 1px solid #333;
-            position: relative;
+        /* გალერეა */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 60px; }
+        .gallery-item {
+            background: rgba(20, 20, 20, 0.8); border-radius: 15px; overflow: hidden;
+            border: 1px solid rgba(212, 163, 115, 0.2); transition: 0.4s ease; cursor: pointer;
+            backdrop-filter: blur(10px);
         }
+        .gallery-item:hover { transform: scale(1.03); border-color: var(--primary-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .gallery-item img { width: 100%; height: 280px; object-fit: cover; display: block; }
 
-        .container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+        /* ფორმა */
+        .order-container {
+            background: rgba(20, 20, 20, 0.8); max-width: 450px; margin: 40px auto 80px;
+            padding: 40px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            border-top: 5px solid var(--secondary-color); backdrop-filter: blur(10px);
         }
+        .input-group { margin-bottom: 22px; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-size: 11px; color: var(--primary-color); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        input { 
+            width: 100%; padding: 15px; background: rgba(30, 30, 30, 0.6); border: 1px solid #3d3d3d; 
+            border-radius: 10px; color: white; box-sizing: border-box; transition: 0.3s;
+        }
+        input:focus { outline: none; border-color: var(--primary-color); background: rgba(30, 30, 30, 0.9); }
 
-        h2 { text-align: center; color: var(--primary-color); text-transform: uppercase; margin-top: 0; letter-spacing: 1px;}
-        p.subtitle { text-align: center; font-size: 14px; color: #888; margin-bottom: 30px; }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: bold; color: var(--primary-color); text-transform: uppercase;}
-        input { width: 100%; padding: 14px; background: #262626; border: 1px solid #3d3d3d; border-radius: 8px; color: white; box-sizing: border-box; }
-        button#submit-btn { width: 100%; padding: 16px; background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
-        button#submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139, 90, 43, 0.4); }
+        button#submit-btn { 
+            width: 100%; padding: 18px; background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)); 
+            color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; text-transform: uppercase; transition: 0.3s;
+        }
+        button#submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(139, 90, 43, 0.4); }
+
+        footer { padding: 40px 20px; border-top: 1px solid #333; text-align: center; margin-top: 50px; background: rgba(10,10,10,0.8); }
+        .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
+        .social-icon { color: #555; font-size: 26px; transition: 0.3s; }
+        .social-icon:hover { color: var(--primary-color); transform: translateY(-5px); }
+
+        @media (max-width: 600px) {
+            .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .gallery-item img { height: 160px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="dropdown">
-        <button class="dropbtn" id="active-lang">
-            <img src="https://flagcdn.com/w40/ge.png" alt="GE"> KA
-        </button>
-        <div class="dropdown-content">
-            <button onclick="changeLanguage('ka')"><img src="https://flagcdn.com/w40/ge.png"> Georgian</button>
-            <button onclick="changeLanguage('en')"><img src="https://flagcdn.com/w40/us.png"> English</button>
-            <button onclick="changeLanguage('ru')"><img src="https://flagcdn.com/w40/ru.png"> Russian</button>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="image/logo.png" alt="MW" class="logo-img">
+            <span class="brand-name">Mind<span>Wood</span></span>
+        </div>
+        
+        <div class="dropdown">
+            <button class="dropbtn" id="active-lang">
+                <img src="https://flagcdn.com/w40/ge.png" width="18" id="current-flag"> 
+                <span id="current-lang-text">KA</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <button onclick="changeLanguage('ka')"><img src="https://flagcdn.com/w40/ge.png"> ქართული</button>
+                <button onclick="changeLanguage('en')"><img src="https://flagcdn.com/w40/us.png"> English</button>
+                <button onclick="changeLanguage('ru')"><img src="https://flagcdn.com/w40/ru.png"> Русский</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title" id="catalog-title">ჩვენი <span>კატალოგი</span></h2>
+        <div class="gallery-grid" id="gallery"></div>
+
+        <h2 class="section-title" id="order-title">გააკეთე <span>შეკვეთა</span></h2>
+        <div class="order-container">
+            <form id="contact-form">
+                <div class="input-group">
+                    <label id="label-name">სახელი და გვარი</label>
+                    <input type="text" name="user_name" required>
+                </div>
+                <div class="input-group">
+                    <label id="label-phone">ტელეფონის ნომერი</label>
+                    <input type="tel" name="user_phone" required>
+                </div>
+                <div class="input-group">
+                    <label id="label-color">მასალა / ფერი</label>
+                    <input type="text" name="laminate_color" required>
+                </div>
+                <button type="submit" id="submit-btn">გაგზავნა</button>
+            </form>
         </div>
     </div>
 
-    <div class="container">
-        <h2 id="title">MindWood</h2>
-        <p class="subtitle" id="subtitle">შეავსეთ ფორმა შეკვეთისთვის</p>
-        <form id="contact-form">
-            <div class="input-group">
-                <label id="label-name">სახელი და გვარი</label>
-                <input type="text" name="user_name" id="input-name" placeholder="მაგ: გიორგი ბერიძე" required>
-            </div>
-            <div class="input-group">
-                <label id="label-phone">ტელეფონის ნომერი</label>
-                <input type="tel" name="user_phone" id="input-phone" placeholder="599 00 00 00" required>
-            </div>
-            <div class="input-group">
-                <label id="label-color">მასალა / ფერი</label>
-                <input type="text" name="laminate_color" id="input-color" placeholder="მაგ: მუხა, კაკალი..." required>
-            </div>
-            <button type="submit" id="submit-btn">შეკვეთის გაგზავნა</button>
-        </form>
-    </div>
-<script> const translations = {
-    ka: { 
-        subtitle: "შეავსეთ ფორმა შეკვეთისთვის", 
-        labelName: "სახელი და გვარი", 
-        labelPhone: "ტელეფონის ნომერი", 
-        labelColor: "მასალა / ფერი", 
-        btn: "შეკვეთის გაგზავნა", 
-        placeholderName: "მაგ: გიორგი ბერიძე", 
-        placeholderColor: "მაგ: მუხა, კაკალი...", 
-        success: "მონაცემები წარმატებით გაიგზავნა!", 
-        langShort: "KA", 
-        flag: "ge" 
-    },
-    en: { 
-        subtitle: "Fill out the order form", 
-        labelName: "Full Name", 
-        labelPhone: "Phone Number", 
-        labelColor: "Material / Color", 
-        btn: "Send Order", 
-        placeholderName: "e.g. John Doe", 
-        placeholderColor: "e.g. Oak, Walnut...", 
-        success: "Data sent successfully!", 
-        langShort: "EN", 
-        flag: "us" 
-    },
-    ru: { 
-        subtitle: "Заполните форму заказа", 
-        labelName: "Имя и фамилия", 
-        labelPhone: "Номер телефона", 
-        labelColor: "Материал / Цвет", 
-        btn: "Отправить заказ", 
-        placeholderName: "напр. Иван Иванов", 
-        placeholderColor: "напр. Дуб, Орех...", 
-        success: "Данные успешно отправлены!", 
-        langShort: "RU", 
-        flag: "ru" 
-    }
-};
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2024 MindWood. All rights reserved.</p>
+    </footer>
 
-let currentLang = 'ka';
+    <script>
+        // გალერეა
+        const gallery = document.getElementById('gallery');
+        for (let i = 1; i <= 14; i++) {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerHTML = `<img src="image/surati${i}.jpg" alt="Work ${i}" onerror="this.src='https://via.placeholder.com/300x280?text=Image+Error'">`;
+            gallery.appendChild(item);
+        }
 
-// ენის შეცვლის ფუნქცია
-function changeLanguage(lang) {
-    currentLang = lang;
-    
-    document.getElementById('subtitle').innerText = translations[lang].subtitle;
-    document.getElementById('label-name').innerText = translations[lang].labelName;
-    document.getElementById('label-phone').innerText = translations[lang].labelPhone;
-    document.getElementById('label-color').innerText = translations[lang].labelColor;
-    document.getElementById('submit-btn').innerText = translations[lang].btn;
-    document.getElementById('input-name').placeholder = translations[lang].placeholderName;
-    document.getElementById('input-color').placeholder = translations[lang].placeholderColor;
-    
-    const activeBtn = document.getElementById('active-lang');
-    activeBtn.innerHTML = `<img src="https://flagcdn.com/w40/${translations[lang].flag}.png"> ${translations[lang].langShort}`;
-}
+        const translations = {
+            ka: { catalog: "ჩვენი <span>კატალოგი</span>", order: "გააკეთე <span>შეკვეთა</span>", name: "სახელი და გვარი", phone: "ტელეფონის ნომერი", color: "მასალა / ფერი", btn: "გაგზავნა", success: "წარმატებით გაიგზავნა!", flag: "ge", lang: "KA" },
+            en: { catalog: "Our <span>Catalog</span>", order: "Place an <span>Order</span>", name: "Full Name", phone: "Phone Number", color: "Material / Color", btn: "Send Order", success: "Sent successfully!", flag: "us", lang: "EN" },
+            ru: { catalog: "Наш <span>Каталог</span>", order: "Сделать <span>Заказ</span>", name: "Имя и Фамилия", phone: "Номер телефона", color: "Material / Цвет", btn: "Отправить", success: "Успешно отправлено!", flag: "ru", lang: "RU" }
+        };
 
-// EmailJS კონფიგურაცია - აქ ჩასვი შენი რეალური კოდები!
-(function() {
+        function changeLanguage(lang) {
+            document.getElementById('catalog-title').innerHTML = translations[lang].catalog;
+            document.getElementById('order-title').innerHTML = translations[lang].order;
+            document.getElementById('label-name').innerText = translations[lang].name;
+            document.getElementById('label-phone').innerText = translations[lang].phone;
+            document.getElementById('label-color').innerText = translations[lang].color;
+            document.getElementById('submit-btn').innerText = translations[lang].btn;
+            document.getElementById('current-lang-text').innerText = translations[lang].lang;
+            document.getElementById('current-flag').src = `https://flagcdn.com/w40/${translations[lang].flag}.png`;
+        }
+
+        // EmailJS (ჩასვი შენი რეალური მონაცემები!)
+      (function() {
     emailjs.init("z7Rbd60fFzIzLwfFx"); // <-- ჩაწერე შენი Public Key
 })();
 
@@ -220,17 +226,17 @@ document.getElementById('contact-form').addEventListener('submit', function(even
 
     // აქ ჩაწერე შენი Service ID და Template ID
     emailjs.sendForm('service_1nq3807', 'template_dt0l18t', this)
-        .then(function() {
-            alert(translations[currentLang].success);
-            document.getElementById('contact-form').reset();
-            btn.innerText = translations[currentLang].btn;
-            btn.disabled = false;
-        }, function(error) {
-            alert("Error: " + JSON.stringify(error)); // თუ არ გაიგზავნა, აქ დაგვიწერს რატომ
-            btn.innerText = translations[currentLang].btn;
-            btn.disabled = false;
+                .then(function() {
+                    alert(translations[langKey].success);
+                    document.getElementById('contact-form').reset();
+                    btn.innerText = translations[langKey].btn;
+                    btn.disabled = false;
+                }, function(error) {
+                    alert("Error: " + JSON.stringify(error));
+                    btn.innerText = translations[langKey].btn;
+                    btn.disabled = false;
+                });
         });
-}); </script>
-   
+    </script>
 </body>
 </html>
