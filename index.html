@@ -161,14 +161,20 @@
         }
 
         // EmailJS - აქ ჩასვი შენი აიდები!
-        (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
+        (function() {
+    emailjs.init("z7Rbd60fFzIzLwfFx"); // <-- ჩაწერე შენი Public Key
+})();
 
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            btn.innerText = "Sending...";
-            btn.disabled = true;
-            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const btn = document.getElementById('submit-btn');
+    const originalText = btn.innerText;
+    btn.innerText = "Sending...";
+    btn.disabled = true;
+
+    // აქ ჩაწერე შენი Service ID და Template ID
+    emailjs.sendForm('service_1nq3807', 'template_dt0l18t', this)
                 .then(function() {
                     alert("Success!");
                     document.getElementById('contact-form').reset();
