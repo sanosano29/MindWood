@@ -58,7 +58,10 @@
         .nav-left { display: flex; align-items: center; gap: 12px; }
         .logo-img { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary-color); }
         .brand-name { font-weight: 800; font-size: 1.4rem; color: #fff; letter-spacing: 1px; }
-        .brand-name span { color: var(--primary-color); }
+       .brand-name span { 
+    color: var(--primary-color); /* ეს ოქროსფრად შეღებავს დიდ D-ებს */
+    font-weight: 900; /* ოდნავ უფრო სქელი D-ები */
+}
 
         /* ენების მენიუ - გასწორებული "ხიდით" */
         .dropdown { position: relative; display: inline-block; }
@@ -133,10 +136,10 @@
 <body>
 
     <nav class="navbar">
-        <div class="nav-left">
-            <img src="image/logo.png" alt="MW" class="logo-img">
-            <span class="brand-name">Mind<span>Wood</span></span>
-        </div>
+       <div class="nav-left">
+    <img src="image/logo.png" alt="MW" class="logo-img">
+    <span class="brand-name">Min<span>D</span>Woo<span>D</span></span>
+</div>
         
         <div class="dropdown">
             <button class="dropbtn" id="active-lang">
